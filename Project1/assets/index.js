@@ -1,5 +1,8 @@
+let hero = document.querySelector(".hero");
+hero.style.display = "none";
+let loader = document.querySelector(".loader");
+
 async function quote() {
-  // const word = wordsArray[Math.floor(Math.random() * wordsArray.length)];
   let url = `https://api.api-ninjas.com/v1/quotes`;
   const response = await fetch(url, {
     method: "GET",
@@ -12,29 +15,44 @@ async function quote() {
   return data;
 }
 
-async function displayQuote() {
+let btn = document.querySelector("button");
+
+async function changeBg() {
+  let countdown = 3;
   const quoteData = await quote();
-  const quoteText = document.getElementById("quote");
-  const quoteAuthor = document.getElementById("author");
-  if (quoteData && quoteData.length >= 0) {
-    const quote = quoteData[0];
-    quoteText.innerHTML = quote.quote;
-    quoteAuthor.innerHTML = `-${quote.author}`;
+
+  if (quoteData[0] != undefined) {
+    setInterval(function () {
+      countdown -= 1;
+      if (countdown <= 0) {
+        clearInterval();
+
+        loader.style.display = "none";
+        hero.style.display = "flex";
+      }
+    }, 1000);
   }
-  // let max_card = 3;
-  // for (let i = 0; i < max_card; i++) {
-  //   const quoteData = await quote(); // Assuming quote() is an asynchronous function that fetches quotes
-  //   if (quoteData && quoteData.length > 0) {
-  //     // Check if quotes array exists and is not empty
-  //     const quote = quoteData[0]; // Get the first quote from the array
-  //     const countryDiv = document.createElement("div");
-  //     countryDiv.classList.add("card");
-  //     countryDiv.innerHTML = `
-  //         <h3 class="author">${quote.author}</h3>
-  //         <h3 class="quote">${quote.quote}</h3>`;
-  //     demo.appendChild(countryDiv); // Append each card to the demo element
-  //   }
-  // }
+
+  let words = quoteData[0].quote.split(" ");
+  console.log(words.length);
+
+  if (words.length > 15) {
+    let newQuoteData = await quote();
+    let newWords = newQuoteData[0].quote.split(" ");
+    while (newWords.length > 15) {
+      newQuoteData = await quote();
+      newWords = newQuoteData[0].quote.split(" ");
+    }
+    document.getElementById("quote").textContent = newQuoteData[0].quote;
+    document.getElementById(
+      "quoter"
+    ).textContent = `- ${newQuoteData[0].author}`;
+    console.log(newWords.length);
+  } else {
+    document.getElementById("quote").textContent = quoteData[0].quote;
+    document.getElementById("quoter").textContent = `- ${quoteData[0].author}`;
+  }
 }
 
-displayQuote();
+btn.addEventListener("click", changeBg);
+window.onload = changeBg();
