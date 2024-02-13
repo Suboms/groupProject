@@ -33,25 +33,28 @@ async function changeBg() {
     }, 1000);
   }
 
-  let words = quoteData[0].quote.split(" ");
-  console.log(words.length);
+  setInterval(async function () {
+    let words = quoteData[0].quote.split(" ");
 
-  if (words.length > 15) {
-    let newQuoteData = await quote();
-    let newWords = newQuoteData[0].quote.split(" ");
-    while (newWords.length > 15) {
-      newQuoteData = await quote();
-      newWords = newQuoteData[0].quote.split(" ");
+    if (words.length > 15) {
+      let newQuoteData = await quote();
+      let newWords = newQuoteData[0].quote.split(" ");
+      while (newWords.length > 15) {
+        newQuoteData = await quote();
+        newWords = newQuoteData[0].quote.split(" ");
+      }
+      document.getElementById("quote").textContent = newQuoteData[0].quote;
+      document.getElementById(
+        "quoter"
+      ).textContent = `- ${newQuoteData[0].author}`;
+      console.log(newWords.length);
+    } else {
+      document.getElementById("quote").textContent = quoteData[0].quote;
+      document.getElementById(
+        "quoter"
+      ).textContent = `- ${quoteData[0].author}`;
     }
-    document.getElementById("quote").textContent = newQuoteData[0].quote;
-    document.getElementById(
-      "quoter"
-    ).textContent = `- ${newQuoteData[0].author}`;
-    console.log(newWords.length);
-  } else {
-    document.getElementById("quote").textContent = quoteData[0].quote;
-    document.getElementById("quoter").textContent = `- ${quoteData[0].author}`;
-  }
+  }, 10000);
 }
 
 btn.addEventListener("click", changeBg);
