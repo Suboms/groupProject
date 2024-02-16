@@ -40,7 +40,7 @@ async function changeBg() {
     let words = quoteData[0].quote.split(" ");
     quoteText.textContent = quoteData[0].quote;
     quoter.textContent = `- ${quoteData[0].author}`;
-    if (words.length <= 20) {
+    if (words.length <= 15) {
       quoteText.style.fontSize = "1.5rem";
     }else if(words.length > 15 && words.length < 40){
       quoteText.style.fontSize = "1rem";}
