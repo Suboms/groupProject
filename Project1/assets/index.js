@@ -44,8 +44,9 @@ async function changeBg() {
     quoter.textContent = `- ${quoteData[0].author}`;
     if (words.length <= 15) {
       quoteText.style.fontSize = "1.5rem";
-    }else if(words.length > 15 && words.length < 40){
+    }else if(words.length > 15 && words.length <= 70){
       quoteText.style.fontSize = "1rem";}
+
   }, 10000);
     
 
