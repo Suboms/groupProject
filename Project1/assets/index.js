@@ -38,8 +38,8 @@ async function changeBg() {
   setInterval(async function () {
     const quoteData = await quote();
     let words = quoteData[0].quote.split(" ");
-    console.log(words);
-    console.log(words.length);
+    // console.log(words);
+    // console.log(words.length);
     quoteText.textContent = quoteData[0].quote;
     quoter.textContent = `- ${quoteData[0].author}`;
     if (words.length <= 15) {
